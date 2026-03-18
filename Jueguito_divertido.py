@@ -65,8 +65,14 @@ def check_answer(user_input, correct_answer):
         st.session_state.failed = True
 
 # --- INTERFAZ ---
-if st.session_state.current_q < len(questions):
+if not st.session_state.failed and st.session_state.current_q < len(questions):
     st.title(f"🚀 Challenge Nivel {st.session_state.current_q + 1}")
+    
+    # Mostrar vidas restantes
+    cols = st.columns([2, 1])
+    with cols[1]:
+        st.metric("Vidas ❤️", st.session_state.attempts)
+    
     st.progress(st.session_state.current_q / len(questions))
     
     q_data = questions[st.session_state.current_q]
@@ -82,20 +88,28 @@ if st.session_state.current_q < len(questions):
             check_answer(user_ans, q_data["a"])
         else:
             st.warning("Debes ingresar algo, ingeniero.")
-            
-    if st.session_state.failed:
-        st.error("❌ ERROR CRÍTICO. Sistema inestable. Reintenta.")
-        if st.button("Reiniciar Módulo"):
-            st.session_state.failed = False
-            st.rerun()
+
+elif st.session_state.failed:
+    st.error("❌ ERROR CRÍTICO: Demasiados intentos fallidos. Sistema bloqueado.")
+    if st.button("Reiniciar desde Cero"):
+        st.session_state.clear()
+        st.rerun()
 
 else:
     # --- PANTALLA FINAL ---
     st.balloons()
-    st.title("🏆 EXAMEN DE GRADO APROBADO")
-    st.write("Has demostrado una compatibilidad del 100%. Los sistemas están sincronizados.")
+    st.title("🏆 PROCESANDO RESULTADOS...")
     
-    # Gráfico de Corazón Burdeo
+    # MENSAJE DE SUSTO SI TUVO ERRORES
+    if st.session_state.total_errors > 0:
+        st.warning(f"⚠️ Se detectaron {st.session_state.total_errors} fallos en la matriz de memoria. Estuviste cerca del colapso del sistema.")
+        time.sleep(2)
+        st.info("Re-calibrando sentimientos... Por favor, espera.")
+        time.sleep(3)
+    
+    st.success("Sincronización completada con éxito.")
+    
+    # Gráfico de Corazón
     t = np.linspace(0, 2 * np.pi, 1000)
     x = 16 * np.sin(t)**3
     y = 13 * np.cos(t) - 5 * np.cos(2*t) - 2 * np.cos(3*t) - np.cos(4*t)
@@ -105,9 +119,10 @@ else:
     ax.axis('off')
     st.pyplot(fig)
     
-    st.markdown(f"### Entonces... Ingeniero Civil Eléctrico:")
-    st.markdown(f"## ¿Quieres ser el pololo de esta Ingeniera Civil Biotec?")
+    st.markdown("### Entonces... Ingeniero Civil Eléctrico:")
+    st.markdown("## ¿Quieres ser el pololo de esta Ingeniera Civil Biotec?")
     
     if st.button("SÍ, ACEPTO EL VÍNCULO"):
         st.snow()
         st.success("¡CONEXIÓN ESTABLECIDA! Próximo hito: Eli y Dante.")
+    
