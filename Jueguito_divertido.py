@@ -23,27 +23,27 @@ if 'failed' not in st.session_state:
 # --- BASE DE DATOS DE PREGUNTAS ---
 questions = [
     # NIVEL 1: SEGURIDAD BIO-SEMÁNTICA 
-    {"q": "Para iniciar: ¿En qué mes nació la Ingeniera de este sistema?", "a": "Junio", "type": "text"},
+    {"q": "Para iniciar (Inicie todas sus respuestas con mayúscula y sin errores ortográficos, por favor): ¿En qué mes nació la ingeniera de este sistema?", "a": "Junio", "type": "text"},
     {"q": "¿Cómo se llama la futura suegra del ingeniero?", "a": "Magaly", "type": "text"},
     {"q": "¿Qué significa 'Ohana' según el Experimento 626?", "a": "Familia", "type": "text"},
     {"q": "En 'Canción de Hielo y Fuego', ¿qué familia tiene por lema 'Winter is Coming'?", "a": "Stark", "type": "text"},
     {"q": "¿Qué sabor prefiere el sistema operativo de la Ingeniera de este sistema?", "a": "Salado", "type": "choice", "ops": ["Dulce", "Salado"]},
     {"q": "¿En qué estación el sistema alcanza su máxima eficiencia térmica?", "a": "Invierno", "type": "choice", "ops": ["Verano", "Invierno"]},
-    {"q": "Si la Ingeniera se pierde en el supermercado, ¿en qué pasillo es más probable que la encuentres?", "a": "Snacks", "type": "choice", "ops": ["Congelados","Lácteos","Snacks","Libros"]},
-    {"q": "¿En qué fecha se produjo el primer contacto de los ingenieros (texto)?", "a": "cinco de febrero", "type": "text"},
+    {"q": "Si la ingeniera se pierde en el SUPERMERCADO, ¿en qué pasillo es más probable que la encuentres?", "a": "Snacks", "type": "choice", "ops": ["Congelados","Lácteos","Snacks","Libros"]},
+    {"q": "¿En qué fecha se produjo el primer contacto de los ingenieros (texto sin el año)?", "a": "Cinco de febrero", "type": "text"},
     {"q": "Si el sistema genera una versión v2.0 masculina, ¿cómo se llamaría?", "a": "Dante", "type": "text"},
     {"q": "Si el sistema genera una versión v2.0 femenina, ¿cómo se llamaría?", "a": "Eli", "type": "text"},
     {"q": "Si la ingeniera tuviera un dragón, ¿de qué color sería?", "a": "Negro", "type": "choice", "ops": ["Blanco","Dorado","Negro"]},
-    {"q": "Pregunta de Oro: ¿Cuál fue el color deL sostén de la ingeniera el día que se conocieron?", "a": "No tenía", "type": "choice","ops": ["Negro","Rosa","Blanco","No tenía"]},
+    {"q": "¿Cuál fue el color del sostén de la ingeniera el día que se conocieron?", "a": "No tenía", "type": "choice","ops": ["Negro","Rosa","Blanco","No tenía"]},
 
     
     # NIVEL 2: INGENIERÍA ELÉCTRICA 
     {"q": "En un inductor, ¿la corriente se atrasa o se adelanta respecto al voltaje?", "a": "Se atrasa", "type": "choice", "ops": ["Se atrasa", "Se adelanta"]},
-    {"q": "Si tenemos una carga puramente resistiva, ¿cuál es el factor de potencia?", "a": "1", "type": "text"},
+    {"q": "Si tenemos una carga puramente resistiva, ¿cuál es el factor de potencia (en palabras)?", "a": "Uno", "type": "text"},
     {"q": "¿Cuál es la unidad de medida de la reactancia?", "a": "Ohm", "type": "text"},
-    {"q": "Leyes de Kirchhoff: La suma algebraica de las corrientes en un nodo es igual a...", "a": "Cero", "type": "text"},
+    {"q": "Leyes de Kirchhoff: La suma algebraica de las corrientes en un nodo es igual a... (en palabras)", "a": "Cero", "type": "text"},
     {"q": "¿Qué componente eléctrico se opone a los cambios bruscos de voltaje?", "a": "Capacitor", "type": "text"},
-    {"q": "Si el Amor ($V$) es igual a la Intensidad ($I$) por la Resistencia ($R$), y nuestra resistencia a los problemas es 0, ¿cuánto tiende a ser nuestro amor?","a":"Infinito","type": "text"},
+    {"q": "Si el Amor ($V$) es igual a la Intensidad ($I$) por la Resistencia ($R$), y nuestra resistencia a los problemas es 0, ¿cuánto tiende a ser nuestro amor (en palabras)?","a":"Infinito","type": "text"},
 
     
     # NIVEL 3: BIOTECNOLOGÍA
