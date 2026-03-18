@@ -23,7 +23,7 @@ if 'attempts' not in st.session_state:
     st.session_state.attempts = 3  
 if 'total_errors' not in st.session_state:
     st.session_state.total_errors = 0 
-    
+
 # --- BASE DE DATOS DE PREGUNTAS ---
 questions = [
     # NIVEL 1: SEGURIDAD BIO-SEMÁNTICA 
@@ -40,7 +40,6 @@ questions = [
     {"q": "Si la ingeniera tuviera un dragón, ¿de qué color sería?", "a": "Negro", "type": "choice", "ops": ["Blanco","Dorado","Negro"]},
     {"q": "¿Cuál fue el color del sostén de la ingeniera el día que se conocieron?", "a": "No tenía", "type": "choice","ops": ["Negro","Rosa","Blanco","No tenía"]},
 
-    
     # NIVEL 2: INGENIERÍA ELÉCTRICA 
     {"q": "En un inductor, ¿la corriente se atrasa o se adelanta respecto al voltaje?", "a": "Se atrasa", "type": "choice", "ops": ["Se atrasa", "Se adelanta"]},
     {"q": "Si tenemos una carga puramente resistiva, ¿cuál es el factor de potencia (en palabras)?", "a": "Uno", "type": "text"},
@@ -49,7 +48,6 @@ questions = [
     {"q": "¿Qué componente eléctrico se opone a los cambios bruscos de voltaje?", "a": "Capacitor", "type": "text"},
     {"q": "Si el Amor ($V$) es igual a la Intensidad ($I$) por la Resistencia ($R$), y nuestra resistencia a los problemas es 0, ¿cuánto tiende a ser nuestro amor (en palabras)?","a":"Infinito","type": "text"},
 
-    
     # NIVEL 3: BIOTECNOLOGÍA
     {"q": "¿Cuál es el dogma central: ADN -> ARN -> ...?", "a": "Proteína", "type": "text"},
     {"q": "¿En qué dirección se sintetiza siempre una cadena de ADN?", "a": "5 a 3", "type": "choice", "ops": ["5 a 3", "3 a 5"]},
@@ -66,7 +64,12 @@ def check_answer(user_input, correct_answer):
         st.session_state.score += 5
         st.rerun()
     else:
-        st.session_state.failed = True
+        st.session_state.attempts -= 1 
+        st.session_state.total_errors += 1
+        if st.session_state.attempts <= 0:
+            st.session_state.failed = True
+        else:
+            st.warning(f"Respuesta incorrecta. Te quedan {st.session_state.attempts} intentos.")
 
 # --- INTERFAZ ---
 if not st.session_state.failed and st.session_state.current_q < len(questions):
@@ -96,7 +99,11 @@ if not st.session_state.failed and st.session_state.current_q < len(questions):
 elif st.session_state.failed:
     st.error("❌ ERROR CRÍTICO: Demasiados intentos fallidos. Sistema bloqueado.")
     if st.button("Reiniciar desde Cero"):
-        st.session_state.clear()
+        # Limpiar todo para empezar de nuevo
+        st.session_state.current_q = 0
+        st.session_state.attempts = 3
+        st.session_state.total_errors = 0
+        st.session_state.failed = False
         st.rerun()
 
 else:
@@ -104,9 +111,8 @@ else:
     st.balloons()
     st.title("🏆 PROCESANDO RESULTADOS...")
     
-    # MENSAJE DE SUSTO SI TUVO ERRORES
     if st.session_state.total_errors > 0:
-        st.warning(f"⚠️ Se detectaron {st.session_state.total_errors} fallos en la matriz de memoria. Estuviste cerca del colapso del sistema.")
+        st.warning(f"⚠️ Se detectaron {st.session_state.total_errors} fallos en la matriz de memoria.")
         time.sleep(2)
         st.info("Re-calibrando sentimientos... Por favor, espera.")
         time.sleep(3)
@@ -129,4 +135,3 @@ else:
     if st.button("SÍ, ACEPTO EL VÍNCULO"):
         st.snow()
         st.success("¡CONEXIÓN ESTABLECIDA! Próximo hito: Eli y Dante.")
-    
