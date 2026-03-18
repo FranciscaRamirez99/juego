@@ -24,7 +24,6 @@ if 'failed' not in st.session_state:
 questions = [
     # NIVEL 1: SEGURIDAD BIO-SEMÁNTICA 
     {"q": "Para iniciar: ¿En qué mes nació la Ingeniera de este sistema?", "a": "Junio", "type": "text"},
-    {"q": "¿Cómo se llama la gata que nos cuida desde el cielo de los michis?", "a": "Marie", "type": "text"},
     {"q": "¿Cómo se llama la futura suegra del ingeniero?", "a": "Magaly", "type": "text"},
     {"q": "¿Qué significa 'Ohana' según el Experimento 626?", "a": "Familia", "type": "text"},
     {"q": "En 'Canción de Hielo y Fuego', ¿qué familia tiene por lema 'Winter is Coming'?", "a": "Stark", "type": "text"},
