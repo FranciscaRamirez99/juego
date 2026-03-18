@@ -23,7 +23,7 @@ if 'failed' not in st.session_state:
 # --- BASE DE DATOS DE PREGUNTAS ---
 questions = [
     # NIVEL 1: SEGURIDAD BIO-SEMÁNTICA 
-    {"q": "Para iniciar (Inicie todas sus respuestas con mayúscula y revise que estas no tengan errores ortográficos, por favor): ¿En qué mes nació la ingeniera de este sistema?", "a": "Junio", "type": "text"},
+    {"q": "Para iniciar (Inicie todas sus respuestas con mayúscula y revise que estas no tengan errores ortográficos, por favor): ¿En qué mes nació la ingeniera de este sistema (en palabras)?", "a": "Junio", "type": "text"},
     {"q": "¿Cómo se llama la futura suegra del ingeniero?", "a": "Magaly", "type": "text"},
     {"q": "¿Qué significa 'Ohana' según el Experimento 626?", "a": "Familia", "type": "text"},
     {"q": "En 'Canción de Hielo y Fuego', ¿qué familia tiene por lema 'Winter is Coming'?", "a": "Stark", "type": "text"},
