@@ -4,10 +4,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Protocolo de Sincronización Bio-Eléctrica", page_icon="🔬")
+
+# Estilos personalizados
 st.markdown("""
     <style>
     .main { background-color: #f5f5f5; }
-    .stButton>button { background-color: #800020; color: white; border-radius: 10px; }
+    .stButton>button { background-color: #800020; color: white; border-radius: 10px; width: 100%; }
     h1 { color: #800020; }
     </style>
     """, unsafe_allow_html=True)
@@ -20,14 +22,14 @@ if 'current_q' not in st.session_state:
 if 'failed' not in st.session_state:
     st.session_state.failed = False
 if 'attempts' not in st.session_state:
-    st.session_state.attempts = 3  
+    st.session_state.attempts = 3
 if 'total_errors' not in st.session_state:
-    st.session_state.total_errors = 0 
+    st.session_state.total_errors = 0
 
 # --- BASE DE DATOS DE PREGUNTAS ---
 questions = [
-    # NIVEL 1: SEGURIDAD BIO-SEMÁNTICA 
-    {"q": "Para iniciar (Inicie todas sus respuestas con mayúscula y revise que estas no tengan errores ortográficos, por favor): ¿En qué mes nació la ingeniera de este sistema (en palabras)?", "a": "Junio", "type": "text"},
+    # NIVEL 1: SEGURIDAD BIO-SEMÁNTICA
+    {"q": "Para iniciar (Inicie todas sus respuestas con mayúscula y revise que estas no tengan errores ortográficos): ¿En qué mes nació la ingeniera de este sistema (en palabras)?", "a": "Junio", "type": "text"},
     {"q": "¿Cómo se llama la futura suegra del ingeniero?", "a": "Magaly", "type": "text"},
     {"q": "¿Qué significa 'Ohana' según el Experimento 626?", "a": "Familia", "type": "text"},
     {"q": "En 'Canción de Hielo y Fuego', ¿qué familia tiene por lema 'Winter is Coming'?", "a": "Stark", "type": "text"},
@@ -40,7 +42,7 @@ questions = [
     {"q": "Si la ingeniera tuviera un dragón, ¿de qué color sería?", "a": "Negro", "type": "choice", "ops": ["Blanco","Dorado","Negro"]},
     {"q": "¿Cuál fue el color del sostén de la ingeniera el día que se conocieron?", "a": "No tenía", "type": "choice","ops": ["Negro","Rosa","Blanco","No tenía"]},
 
-    # NIVEL 2: INGENIERÍA ELÉCTRICA 
+    # NIVEL 2: INGENIERÍA ELÉCTRICA
     {"q": "En un inductor, ¿la corriente se atrasa o se adelanta respecto al voltaje?", "a": "Se atrasa", "type": "choice", "ops": ["Se atrasa", "Se adelanta"]},
     {"q": "Si tenemos una carga puramente resistiva, ¿cuál es el factor de potencia (en palabras)?", "a": "Uno", "type": "text"},
     {"q": "¿Cuál es la unidad de medida de la reactancia?", "a": "Ohm", "type": "text"},
@@ -57,49 +59,46 @@ questions = [
     {"q": "¿Qué organelo celular es como una 'Central Eléctrica'?", "a": "Mitocondria", "type": "text"},
 ]
 
-# --- LÓGICA DE NAVEGACIÓN ---
+# --- LÓGICA DE CONTROL ---
 def check_answer(user_input, correct_answer):
     if user_input.lower().strip() == correct_answer.lower().strip():
         st.session_state.current_q += 1
-        st.session_state.score += 5
         st.rerun()
     else:
-        st.session_state.attempts -= 1 
+        st.session_state.attempts -= 1
         st.session_state.total_errors += 1
         if st.session_state.attempts <= 0:
             st.session_state.failed = True
         else:
-            st.warning(f"Respuesta incorrecta. Te quedan {st.session_state.attempts} intentos.")
+            st.rerun()
 
-# --- INTERFAZ ---
+# --- INTERFAZ DE USUARIO ---
 if not st.session_state.failed and st.session_state.current_q < len(questions):
     st.title(f"🚀 Challenge Nivel {st.session_state.current_q + 1}")
     
-    # Mostrar vidas restantes
-    cols = st.columns([2, 1])
-    with cols[1]:
-        st.metric("Vidas ❤️", st.session_state.attempts)
+    # Visualización de Vidas
+    st.subheader(f"Vidas restantes: {'❤️' * st.session_state.attempts}")
     
     st.progress(st.session_state.current_q / len(questions))
     
     q_data = questions[st.session_state.current_q]
-    st.subheader(q_data["q"])
+    st.write("---")
+    st.markdown(f"### {q_data['q']}")
     
     if q_data["type"] == "text":
-        user_ans = st.text_input("Escribe tu respuesta:", key=f"q{st.session_state.current_q}")
+        user_ans = st.text_input("Escribe tu respuesta:", key=f"input_{st.session_state.current_q}")
     else:
-        user_ans = st.radio("Selecciona:", q_data["ops"], key=f"q{st.session_state.current_q}")
+        user_ans = st.radio("Selecciona una opción:", q_data["ops"], key=f"radio_{st.session_state.current_q}")
         
     if st.button("Validar Respuesta"):
         if user_ans:
             check_answer(user_ans, q_data["a"])
         else:
-            st.warning("Debes ingresar algo, ingeniero.")
+            st.warning("El sistema requiere una entrada de datos válida.")
 
 elif st.session_state.failed:
-    st.error("❌ ERROR CRÍTICO: Demasiados intentos fallidos. Sistema bloqueado.")
-    if st.button("Reiniciar desde Cero"):
-        # Limpiar todo para empezar de nuevo
+    st.error("❌ ERROR CRÍTICO: Demasiados intentos fallidos. Sistema bloqueado temporalmente.")
+    if st.button("Reiniciar Protocolo"):
         st.session_state.current_q = 0
         st.session_state.attempts = 3
         st.session_state.total_errors = 0
@@ -119,7 +118,7 @@ else:
     
     st.success("Sincronización completada con éxito.")
     
-    # Gráfico de Corazón
+    # Gráfico del Corazón
     t = np.linspace(0, 2 * np.pi, 1000)
     x = 16 * np.sin(t)**3
     y = 13 * np.cos(t) - 5 * np.cos(2*t) - 2 * np.cos(3*t) - np.cos(4*t)
@@ -131,6 +130,10 @@ else:
     
     st.markdown("### Entonces... Ingeniero Civil Eléctrico:")
     st.markdown("## ¿Quieres ser el pololo de esta Ingeniera Civil Biotec?")
+    
+    if st.button("SÍ, ACEPTO EL VÍNCULO"):
+        st.snow()
+        st.success("¡CONEXIÓN ESTABLECIDA! Próximo hito: Eli y Dante.")
     
     if st.button("SÍ, ACEPTO EL VÍNCULO"):
         st.snow()
