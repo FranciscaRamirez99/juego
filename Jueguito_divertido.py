@@ -19,7 +19,11 @@ if 'current_q' not in st.session_state:
     st.session_state.current_q = 0
 if 'failed' not in st.session_state:
     st.session_state.failed = False
-
+if 'attempts' not in st.session_state:
+    st.session_state.attempts = 3  
+if 'total_errors' not in st.session_state:
+    st.session_state.total_errors = 0 
+    
 # --- BASE DE DATOS DE PREGUNTAS ---
 questions = [
     # NIVEL 1: SEGURIDAD BIO-SEMÁNTICA 
